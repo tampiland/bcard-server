@@ -1,0 +1,139 @@
+import Card from "../models/card.model";
+import { Request, Response } from "express";
+import fs from "fs";
+
+//const defaultImage = "../images/default-person.png";
+
+export class cardController {
+  // Retrieve all stored business cards
+  public static findAll = (req: Request, res: Response) => {
+    Card.find()
+      .then((cards) => {
+        res.send(cards);
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message:
+            err.message ||
+            "Something went wrong while getting list of business cards.",
+        });
+      });
+  };
+
+  // Create a new business card
+  public static create = (req: Request, res: Response) => {
+    if (!req.body) {
+      return res.status(400).send({
+        message: "Error: Empty request",
+      });
+    }
+    const card = new Card({
+      name: req.body.name,
+      surName: req.body.surName,
+      telephone: req.body.telephone,
+      email: req.body.email,
+      // image: {
+      //   data: new Buffer(
+      //     fs.readFileSync(defaultImage, { encoding: "base64" }),
+      //     "base64"
+      //   ),
+      //   contentType: "image/png",
+      // },
+    });
+    card
+      .save()
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message:
+            err.message ||
+            "Something went wrong while creating new business card.",
+        });
+      });
+  };
+
+  // Get business card by id
+  public static findOne = (req: Request, res: Response) => {
+    Card.findById(req.params.id)
+      .then((card) => {
+        if (!card) {
+          return res.status(404).send({
+            message: `Card with id ${req.params.id} not found`,
+          });
+        }
+        res.send(card);
+      })
+      .catch((err) => {
+        if (err.kind === "ObjectId") {
+          return res.status(404).send({
+            message: `Card with id ${req.params.id} not found`,
+          });
+        }
+        return res.status(500).send({
+          message: `Error getting card with id ${req.params.id}`,
+        });
+      });
+  };
+
+  // Update business card by id
+  public static update = (req: Request, res: Response) => {
+    if (!req.body) {
+      return res.status(400).send({
+        message: "Error: Empty request",
+      });
+    }
+    Card.findByIdAndUpdate(
+      req.params.id,
+      {
+        name: req.body.name,
+        surName: req.body.surName,
+        telephone: req.body.telephone,
+        email: req.body.email,
+      },
+      { new: true }
+    )
+      .then((card) => {
+        if (!card) {
+          return res.status(404).send({
+            message: `Card with id ${req.params.id} not found`,
+          });
+        }
+        res.send(card);
+      })
+      .catch((err) => {
+        if (err.kind === "ObjectId") {
+          return res.status(404).send({
+            message: `Card with id ${req.params.id} not found`,
+          });
+        }
+        return res.status(500).send({
+          message: `Error updating business card with id ${req.params.id}`,
+        });
+      });
+  };
+
+  // Delete a business card by id
+  public static delete = (req: Request, res: Response) => {
+    Card.findByIdAndRemove(req.params.id)
+      .then((card) => {
+        if (!card) {
+          return res.status(404).send({
+            message: `Card with id ${req.params.id} not found`,
+          });
+        }
+        res.send({ message: "Card successfully deleted" });
+      })
+      .catch((err) => {
+        if (err.kind === "ObjectId" || err.name === "NotFound") {
+          return res.status(404).send({
+            message: `Card with id ${req.params.id} not found`,
+          });
+        }
+        return res.status(500).send({
+          message: `Could not delete card with id ${req.params.id}`,
+        });
+      });
+  };
+}
