@@ -24,12 +24,21 @@ export class cardController {
         message: "Error: Empty request",
       });
     }
+    let image = undefined;
+    try {
+      image = {
+        data: req.body.image.data,
+        contentType: req.body.image.contentType,
+      };
+    } catch (err) {
+      console.error(err);
+    }
     const card = new Card({
       name: req.body.name,
       surName: req.body.surName,
       telephone: req.body.telephone,
       email: req.body.email,
-      image: req.body.image,
+      image: image,
     });
     card
       .save()
@@ -75,10 +84,15 @@ export class cardController {
         message: "Error: Empty request",
       });
     }
-    // let buf = undefined;
-    // if (req.body.image && req.body.image.data) {
-    //   buf = Buffer.from(JSON.stringify(req.body.image.data.data));
-    // }
+    let image = undefined;
+    try {
+      image = {
+        data: req.body.image.data,
+        contentType: req.body.image.contentType,
+      };
+    } catch (err) {
+      console.error(err);
+    }
     Card.findByIdAndUpdate(
       req.params.id,
       {
@@ -86,10 +100,7 @@ export class cardController {
         surName: req.body.surName,
         telephone: req.body.telephone,
         email: req.body.email,
-        image: {
-          data: req.body.image.data,
-          contentType: req.body.image.contentType,
-        },
+        image: image,
       },
       { new: true }
     )
