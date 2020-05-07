@@ -1,14 +1,14 @@
 {
   "name": "bcard-server",
   "version": "1.0.0",
-  "description": "",
+  "author": "tampiland",
+  "private": true,
   "main": "server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc",
     "start": "concurrently \"tsc -w\" \"nodemon -r ./build/src/server.js\""
   },
-  "author": "peterekarlsson",
   "license": "ISC",
   "dependencies": {
     "@types/body-parser": "^1.19.0",
@@ -17,6 +17,7 @@
     "@types/mongoose": "^5.7.15",
     "@types/nodemon": "^1.19.0",
     "body-parser": "^1.19.0",
+    "concurrently": "^5.2.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongoose": "^5.9.12",
