@@ -9,7 +9,7 @@ const port = process.env.PORT || 4000;
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: "50MB" }));
 
 mongoose
   .connect(dbConfig.url, {

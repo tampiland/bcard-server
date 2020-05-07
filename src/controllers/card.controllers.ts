@@ -29,10 +29,7 @@ export class cardController {
       surName: req.body.surName,
       telephone: req.body.telephone,
       email: req.body.email,
-      // image: {
-      //   data:
-      //   contentType: "image/png",
-      // },
+      image: req.body.image,
     });
     card
       .save()
@@ -78,6 +75,10 @@ export class cardController {
         message: "Error: Empty request",
       });
     }
+    // let buf = undefined;
+    // if (req.body.image && req.body.image.data) {
+    //   buf = Buffer.from(JSON.stringify(req.body.image.data.data));
+    // }
     Card.findByIdAndUpdate(
       req.params.id,
       {
@@ -85,6 +86,10 @@ export class cardController {
         surName: req.body.surName,
         telephone: req.body.telephone,
         email: req.body.email,
+        image: {
+          data: req.body.image.data,
+          contentType: req.body.image.contentType,
+        },
       },
       { new: true }
     )
