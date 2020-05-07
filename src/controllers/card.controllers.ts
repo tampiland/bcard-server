@@ -24,15 +24,12 @@ export class cardController {
         message: "Error: Empty request",
       });
     }
-    let image = undefined;
-    try {
-      image = {
-        data: req.body.image.data,
-        contentType: req.body.image.contentType,
-      };
-    } catch (err) {
-      console.error(err);
-    }
+    const image = req.body.image
+      ? {
+          data: req.body.image.data,
+          contentType: req.body.image.contentType,
+        }
+      : undefined;
     const card = new Card({
       name: req.body.name,
       surName: req.body.surName,
@@ -84,15 +81,12 @@ export class cardController {
         message: "Error: Empty request",
       });
     }
-    let image = undefined;
-    try {
-      image = {
-        data: req.body.image.data,
-        contentType: req.body.image.contentType,
-      };
-    } catch (err) {
-      console.error(err);
-    }
+    const image = req.body.image
+      ? {
+          data: req.body.image.data,
+          contentType: req.body.image.contentType,
+        }
+      : undefined;
     Card.findByIdAndUpdate(
       req.params.id,
       {
