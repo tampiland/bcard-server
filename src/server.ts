@@ -32,7 +32,6 @@ app.get("/", (req, res) => {
 });
 app.use("/api/cards", cardRoutes);
 
-// listen for requests
 app.listen(port, () => {
   console.log(`Node server is listening on port ${port}`);
 });

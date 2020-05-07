@@ -1,8 +1,5 @@
 import Card from "../models/card.model";
 import { Request, Response } from "express";
-import fs from "fs";
-
-//const defaultImage = "../images/default-person.png";
 
 export class cardController {
   // Retrieve all stored business cards
@@ -33,10 +30,7 @@ export class cardController {
       telephone: req.body.telephone,
       email: req.body.email,
       // image: {
-      //   data: new Buffer(
-      //     fs.readFileSync(defaultImage, { encoding: "base64" }),
-      //     "base64"
-      //   ),
+      //   data:
       //   contentType: "image/png",
       // },
     });
